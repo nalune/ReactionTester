@@ -10,14 +10,12 @@
 
 #box
 {
-	width: 100px;
-	height: 100px;
 	display: none;
 	border: 1px solid black;
 	position: relative;
-	-moz-border-radius: 50px;
-	-webkit-border-radius: 50px;
-	border-radius: 50px;
+	-moz-border-radius: 50%;
+	-webkit-border-radius: 50%;
+	border-radius: 50%;
 }
 
 #field
@@ -26,6 +24,11 @@
 	height: 800px;
 	margin: 0 auto;
 	border: 1px solid black;
+}
+
+#endBox
+{
+	display: none;
 }
 
 
@@ -40,6 +43,8 @@
 	<p>Your time: <span id="yourTime"></span></p>
 
 	<div id="box"></div>
+	<div id="endBox"></div>
+
 </div>
 
 
@@ -59,8 +64,6 @@
 
 function getRandomCoordinates()
 {
-	// var fieldHeight = document.getElementById("field").offsetHeight;
-	// var fieldWidth = document.getElementById("field").offsetWidth;
 	var top = Math.floor(Math.random() * 80);
 	var left = Math.floor(Math.random() * 80);
 	var coordinates = new Array();
@@ -69,12 +72,6 @@ function getRandomCoordinates()
 	return coordinates;
 }
 
-function positionBox()
-{
-	document.getElementById("box").style.display = "block";
-	document.getElementById("box").style.top = getRandomCoordinates()[0] + "%";
-	document.getElementById("box").style.left = getRandomCoordinates()[1] + "%";
-}
 
  function makeBox() {
 
@@ -82,8 +79,12 @@ function positionBox()
 
  	setTimeout(function()
  	{
-
- 		positionBox();
+ 		var radius = Math.floor(Math.random() * (120) + 10);
+ 		document.getElementById("box").style.display = "block";
+ 		document.getElementById("box").style.height = radius + "px";
+ 		document.getElementById("box").style.width = radius + "px";
+		document.getElementById("box").style.top = getRandomCoordinates()[0] + "%";
+		document.getElementById("box").style.left = getRandomCoordinates()[1] + "%";
  		document.getElementById("box").style.background = getRandomColor();
  		createdTime = Date.now();
 
