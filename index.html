@@ -31,6 +31,12 @@
 	display: none;
 }
 
+#endBox p
+{
+	color: red;
+	font-size: 20px;
+}
+
 
 </style>
 
@@ -40,10 +46,13 @@
  <body>
 
 <div id = "field">
-	<p>Your time: <span id="yourTime"></span></p>
+	<p id = "timeContainer">Your time: <span id="yourTime"></span></p>
 
 	<div id="box"></div>
-	<div id="endBox"></div>
+	<div id="endBox">
+		<p>Your average reaction time is <span id="averageReactionTime"> </span></p>
+		<p>Best time: <span id="bestReactionTime"></span></p>
+	</div>
 
 </div>
 
@@ -52,6 +61,11 @@
  var clickedTime;
  var createdTime;
  var reactionTime;
+ var clickCounter = 0;
+ var averageReactionTime;
+ var sum = 0;
+ var timesArray = new Array();
+ var bestReactionTime = 0;
 
  function getRandomColor() {
     var letters = '0123456789ABCDEF'.split('');
@@ -97,11 +111,35 @@ function getRandomCoordinates()
  
  	document.getElementById("box").onclick = function()
  	{
- 		clickedTime = Date.now();
- 		reactionTime = (clickedTime-createdTime)/1000;
- 		document.getElementById("yourTime").innerHTML = reactionTime;
- 		this.style.display = "none";
- 		makeBox();
+ 		
+	 		clickedTime = Date.now();
+	 		reactionTime = (clickedTime - createdTime)/1000;
+	 		document.getElementById("yourTime").innerHTML = reactionTime;
+	 		this.style.display = "none";
+	 		timesArray.push(reactionTime);
+	 		console.log(timesArray);
+	 		clickCounter++;
+
+	 		if(clickCounter < 3)
+	 		{
+	 			makeBox();
+	 			
+	 		}
+
+	 		else
+	 		{
+
+	 			sum = timesArray.reduce(function(a, b) { return a + b; });
+	 			averageReactionTime = sum / timesArray.length;
+	 			averageReactionTime = Math.round(averageReactionTime * 1000) / 1000;
+	 			bestReactionTime = Math.min.apply(Math, timesArray);
+	 			document.getElementById("box").style.display = "none";
+	 			document.getElementById("timeContainer").style.display = "none";
+	 			document.getElementById("endBox").style.display = "block";
+	 			document.getElementById("averageReactionTime").innerHTML = averageReactionTime;
+	 			document.getElementById("bestReactionTime").innerHTML = bestReactionTime;
+	 		}
+
 
  	}
 
