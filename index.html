@@ -7,8 +7,14 @@
  <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
  <meta name="viewport" content="width=device-width, initial-scale=1" />
  <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono' rel='stylesheet' type='text/css'>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
 <style type="text/css">
 
+body
+{
+	background-image: url("img/background.png");
+}
 
 #box
 {
@@ -17,6 +23,7 @@
 	-moz-border-radius: 50%;
 	-webkit-border-radius: 50%;
 	border-radius: 50%;
+	border: 2px solid white;
 }
 
 #gameArea
@@ -31,12 +38,7 @@
 #endBox
 {
 	display: none;
-}
-
-#endBox p
-{
-	color: red;
-	font-size: 20px;
+	margin-left: 30px;
 }
 
 #wrap
@@ -71,6 +73,44 @@
 		cursor: pointer;
 }
 
+#avg, #best, #playAgain
+{
+	width: 150px;
+	height: 150px;
+	border-radius: 50%;
+	font-family: "Ubuntu Mono";
+	display: inline-block;
+	margin: 150px 50px;
+	float: left;
+	border: 1px solid white;
+}
+
+#avg p, #best p, #playAgain p
+{
+	font-size: 16px;
+	text-align: center;
+	padding: 35px 20px;
+	color: #250352;
+}
+
+#avg
+{
+	background-color: #ECE59A;
+}
+
+#best
+{
+	background-color: #FD6E8A;
+}
+
+#playAgain
+{
+	background-color: #848D82;
+	cursor: pointer;
+}
+
+
+
 </style>
 
 
@@ -80,20 +120,22 @@
  	<div id ="wrap">
 	 	<div id="title">
 	 		<h1> Reaction Tester </h1>
-	 		<h3> Click the circles as quickly as they appear </h3>
+	 		<h3> Try to click the circles as quickly as they appear </h3>
 	 		<p id = "timeContainer">Your time: <span id="yourTime"></span></p>
 	 	</div>
 
 
 		<div id = "gameArea">
-			<div id="startGame">
+			<div id="startGame" class="highlight">
 				PLAY
 			</div>
 
 			<div id="box"></div>
+
 			<div id="endBox">
-				<p>Your average reaction time is <span id="averageReactionTime"> </span></p>
-				<p>Best time: <span id="bestReactionTime"></span></p>
+				<div id="avg"><p>Average reaction time: <span id="averageReactionTime"> </span></p></div>
+				<div id="best"><p>Best reaction time: <span id="bestReactionTime"></span></p></div>
+				<div id="playAgain" class="highlight"><p>Play Again</p></div>
 			</div>
 
 		</div>
@@ -182,8 +224,8 @@ function getRandomCoordinates()
 	 			document.getElementById("box").style.display = "none";
 	 			//document.getElementById("timeContainer").style.display = "none";
 	 			document.getElementById("endBox").style.display = "block";
-	 			document.getElementById("averageReactionTime").innerHTML = averageReactionTime;
-	 			document.getElementById("bestReactionTime").innerHTML = bestReactionTime;
+	 			document.getElementById("averageReactionTime").innerHTML = averageReactionTime + "s";
+	 			document.getElementById("bestReactionTime").innerHTML = bestReactionTime + "s";
 	 		}
 
 
@@ -194,11 +236,29 @@ function getRandomCoordinates()
 		makeBox();
 	}
 
+	document.getElementById("playAgain").onclick = function () {
+		document.getElementById("endBox").style.display = "none";
+		document.getElementById("yourTime").innerHTML = "";
+		sum = 0;
+		averageReactionTime = 0;
+		timesArray = [];
+		clickCounter = 0;
+		makeBox();
+}
+
  	
 
 
 
  </script>
+
+ <script>
+    	$(".highlight").mouseover(function() {
+			$(this).css("box-shadow","0px 0px 0px 2px");
+		}).mouseout(function() {
+			$(this).css("box-shadow","none");
+		});
+    </script>
 
  </body>
 </html>
